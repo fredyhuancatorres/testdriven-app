@@ -1,18 +1,29 @@
 # base image
-FROM python:3.7.2-alpine
+FROM python:3.7.2-slim
+
+# install netcat
+RUN apt-get update && \
+    apt-get -y install netcat && \
+    apt-get clean
+
+
+# base image
+#FROM python:3.7.2-alpine
 
 # new
 # install dependencies
-RUN apk update && \
-    apk add --virtual build-deps build-base gcc python-dev musl-dev && \
-    apk add postgresql-dev && \
-    apk add netcat-openbsd
+# RUN apk update && \
+#     apk add --virtual build-deps build-base gcc python-dev musl-dev && \
+#     apk add postgresql-dev && \
+#     apk add netcat-openbsd
 
 # set working directory
 WORKDIR /usr/src/app
 
 # add and install requirements
 COPY ./requirements.txt /usr/src/app/requirements.txt
+RUN pip install --upgrade pip
+
 RUN pip install -r requirements.txt
 
 # new

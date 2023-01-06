@@ -4,11 +4,18 @@
 import os
 
 from flask import Flask  # new
+from flask_bcrypt import Bcrypt  # new
+from flask_cors import CORS  # new
+from flask_debugtoolbar import DebugToolbarExtension  # new
+from flask_migrate import Migrate  # new
 from flask_sqlalchemy import SQLAlchemy
-
 
 # instantiate the db
 db = SQLAlchemy()
+toolbar = DebugToolbarExtension()  # new
+cors = CORS()  # new
+migrate = Migrate()  # new
+bcrypt = Bcrypt()  # new
 
 
 # new
@@ -18,11 +25,15 @@ def create_app(script_info=None):
     app = Flask(__name__)
 
     # set config
-    app_settings = os.getenv('APP_SETTINGS')
+    app_settings = os.getenv("APP_SETTINGS")
     app.config.from_object(app_settings)
 
     # set up extensions
     db.init_app(app)
+    toolbar.init_app(app)  # new
+    cors.init_app(app)  # new
+    migrate.init_app(app, db)  # new
+    bcrypt.init_app(app)  # new
 
     # register blueprints
     from project.api.users import users_blueprint
@@ -31,6 +42,6 @@ def create_app(script_info=None):
     # shell context for flask cli
     @app.shell_context_processor
     def ctx():
-        return {'app': app, 'db': db}
+        return {"app": app, "db": db}
 
     return app
