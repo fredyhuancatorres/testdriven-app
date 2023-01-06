@@ -46,8 +46,8 @@ def test():
 @cli.command('seed_db')
 def seed_db():
     """Seeds the database."""
-    db.session.add(User(username='fredy', email="abelthf@gmail.com"))
-    db.session.add(User(username='fhuancat', email="fhuancat@unsa.edu.pe"))
+    db.session.add(User(username='fredy', email="abelthf@gmail.com", password='greaterthaneight'))
+    db.session.add(User(username='fhuancat', email="fhuancat@unsa.edu.pe", password='greaterthaneight'))
     db.session.commit()
 
 @cli.command()
