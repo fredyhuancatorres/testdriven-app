@@ -10,3 +10,4 @@ flask-debugtoolbar
 flask-cors==3.0.7
 flask-migrate==2.4.0
 flask-bcrypt
+pyjwt==1.7.1
